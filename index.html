@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="layout.css">
+    <title>Persongalleri</title>
+</head>
+<body>
+    
+    <section> </section>
+
+    <template>
+    
+        <article>
+            <h2 class="navn"></h2>
+            <img class="billede" src="" alt="">
+            <img class="billedeurl" src="" alt="">
+            <p class="født"></p>
+            <p class="email"></p>          
+        </article>
+
+    </template>
+        
+
+
+<script>
+
+const url = "https://persongalleri-5d3e.restdb.io/rest/persongalleri";
+const options = {
+    headers:{
+        'x-apikey': "600fe9211346a1524ff12e31"
+    }
+};
+
+async function hentData(){
+    const respons = await fetch (url, options);
+    const json = await respons.json();
+    vis(json);
+}
+
+
+
+
+
+const section = document.querySelector("section")
+const template = document.querySelector("template").content;
+
+function vis (json) {
+    console.log(json);
+
+    json.forEach((person => {
+       const klon = template.cloneNode(true);
+        klon.querySelector(".billedeurl").src = "faces/" + person.billede;
+        klon.querySelector(".navn").textContent = person.fornavn + " " + person.efternavn;
+        // klon.querySelector(".født").textContent = person.fødselsdag;
+        klon.querySelector(".email").textContent = person.email;
+
+        section.appendChild(klon);
+
+
+    }));
+
+
+
+
+
+}
+
+hentData();
+</script>
+
+
+
+</body>
+</html>
